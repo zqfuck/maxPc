@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>嘉实基金</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="css/list.css">
+    <style>
+        video{
+            object-fit: fill;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <div v-show="show_box" class="bookBox">
+        <p style="font-size: 26px;color: #db2e32;font-weight: bold;">用户预约</p>
+        <p style="display: flex;justify-content: space-between">
+            <input class="tel_p" v-model="tel" type="tel" maxlength="11" placeholder="请输入手机号码">
+            <button v-show="time" @click="timeOut" class="code_btn">获取验证码</button>
+            <button v-show="!time" class="time_out">{{timeCount}}秒</button>
+        </p>
+        <p><input type="text" placeholder="请输入验证码" v-model="code" style="width: 60%;height: 35px;"></p>
+        <p>通过手机号预约之后</br>本频道有更新会下发到您的手机</p>
+        <p><button @click="cancel" class="cancel">取消</button><button @click="book" class="book">预约</button></p>
+    </div>
+    <div class="passBox hidden">
+        <p style="font-size: 26px;color: #db2e32;font-weight: bold;">请输入观看密码</p>
+        <p><input type="text" v-model="passCode" placeholder="请输入密码"  style="width: 60%;height: 35px;"></p>
+        <p><button class="book" @click="pass_watch">确定</button></p>
+    </div>
+    <header>
+        <div class="nav">
+            <span class="logo fl" onclick="location.href='index.html'"><img src="./img/logo.png" class="logo_" alt=""></span>
+            <ul class="title fl" id="title">
+
+                <!-- <li>基金理财</li>-->
+            </ul>
+            <div class="fr">
+                <span >
+                    <img id="search" src="./img/search.png" alt="" style="margin-right: 60px;">
+                    <img id="close" class="hidden" src="./img/close.png" alt="" style="margin-right: 60px;">
+                </span>
+                <span><img id="rank" style="cursor: pointer;" src="./img/liebiao-.png" alt=""></span>
+            </div>
+            <div class="searchBox hidden">
+                <span style="position: absolute;top: 8px;left: 20px;height: 30px;"><img src="./img/search.png" alt="" ></span>
+                <input type="text" id="search_val" placeholder="输入节目标题或嘉宾" >
+                <div class="search_list hidden">
+                    <ul class="listL">
+
+                    </ul>
+                </div>
+            </div>
+            <div class="rank_box hidden">
+                <h5>排行榜 <span id="close_rank" style="font-weight: normal;color: #666;cursor: pointer;" class="fr">X</span></h5>
+                <ul class="topHot">
+
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="video_wrap">
+        <div class="video_box">
+            <div style="height: 606px; ">
+                <div v-show="live_type==2||live_type==3" class="video fl" id="video">
+
+                </div>
+                <div v-show="live_type==1" class="video fl">
+                    <div class="video_poster">
+                        <img :src="content_img?content_img:'img/poster.jpg'" alt="">
+                    </div>
+                    <div class="book_box">
+                        <p>
+                            <span id="begin_txt" style="font-size: 24px;margin: 0 25px;">距离直播开始还有</span>
+                           <!-- <span  style="font-size: 24px;margin: 0 25px;">敬请期待</span>-->
+                            <span style="font-size: 30px;">{{time_count}}</span>
+                            <button class="hidden" @click="show_book" id="book_btn">立即预约</button>
+                        </p>
+                    </div>
+                </div>
+                <div class="videp_right fr">
+                    <h5>本频道其他节目</h5>
+                    <ul>
+                        <li v-for="(item,index) in otherItem">
+                            <a :href="'detail.html?cid='+item.content_id+'&columnid='+columnid+''" style="display: inline-block;width: 100%;height: 100%;color: inherit;">
+                                {{item.name}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="video_info">
+                <p style="position: relative;">
+                    <span style="font-size: 18px;color: #fff;margin-right: 15px">{{video_name}}</span>
+                    <span v-if="product_link" class="get_info"><a style="color: inherit;" :href="product_link" target="_blank">立即了解本栏目推荐的产品</a></span>
+                    <span v-else class="get_info">本栏目暂无推荐的产品</span>
+                    <span class="tel" style="cursor: pointer" @mouseover="showCode" @mouseout="hideCode"><img id="er_code" v-show="show_code"  :src="qr_code" ></span>
+                    <span class="zan_bg">
+                    <span style="display: inline-block;width: 24px;height: 18px;background: url('img/eye.png') no-repeat center;"></span>
+                    {{pv}}
+                </span>
+                    <span class="zan_bg">
+                    <span @click="clickLike" style="display: inline-block;cursor:pointer;width: 24px;height: 18px;background: url('img/zan.png') no-repeat center;background-size: contain"></span>
+                    {{like}}
+                </span>
+                </p>
+                <p id="dot1" class="after" style="font-size: 16px;color: #999;margin-top: 24px;width: 850px;overflow:hidden; text-overflow:ellipsis;
+                    display:-webkit-box; -webkit-box-orient:vertical;-webkit-line-clamp:2; -moz-line-clamp:2;" v-html="content_desc">
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="content_wrap">
+        <div class="content_box">
+            <div class="content_left fl">
+                <div class="intro_box" style="margin-top: 0px;">
+                    <h5 style="font-size: 20px;color: #333;margin-bottom: 20px">频道介绍</h5>
+                    <p style="color: #666;font-size: 16px;">{{column_desc}}</p>
+                </div>
+                <div class="guest_box">
+                    <h5 style="font-size: 20px;color: #333;margin: 0px 0 36px 0 ">本期嘉宾</h5>
+                    <div class="slide" style="width: 100%;height: 180px;">
+                        <div class="swiper-container" style="padding: 0 20px 0 40px;overflow: inherit">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" style="position: relative;" v-for="(item,index) in guest" :key="index">
+                                    <div style="display: flex;">
+                                        <div style="margin-right: 25px;">
+                                            <img :src='item.img ? item.img:"img/touxiang.png"' alt="" @mouseover="head_over(item.id)"  @mouseout="head_out(item.id)"
+                                                 style="width: 67px;height: 67px;border-radius: 50%;">
+                                        </div>
+                                        <div>
+                                            <p style="font-size: 18px;color: #333;margin: 8px 0">{{item.guest_name}}</p>
+                                            <p style="font-size: 18px;color: #666">{{item.guest_source}}</p>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: 15px;font-size: 16px;color: #666;line-height: 24px;padding: 0 10px;width: 90%;">
+                                        <p id="dot2" class="after" style="width:280px;overflow:hidden; text-overflow:ellipsis;
+                                        display:-webkit-box; -webkit-box-orient:vertical;-webkit-line-clamp:3;" v-html="item.guest_desc">
+                                        </p>
+                                    </div>
+                                    <div class="mineVideo hidden" :id="item.id">
+                                        <div class="section_box" v-for="(msg,index) of item.guest_relevance">
+                                            <a :href="'detail.html?cid='+msg.content_id+'&columnid='+msg.column_id+''" style="display: inline-block;width: 100%;height: 100%;color: inherit;">
+                                                <img :src='msg.content_img?msg.content_img:"./img/banner123.png"' alt="">
+                                                <p style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;">{{msg.name}}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 如果需要导航按钮 -->
+                            <!--<div class="swiper-button-prev" style=""></div>
+                            <div class="swiper-button-next" style="right: 16px;"></div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="recommend_box">
+                    <h5 style="font-size: 20px;color: #333;margin:0 0 30px 0">精彩节目推荐</h5>
+                    <div class="slide" style="width: 100%;height: auto;">
+                        <div class="swiper-container swiper-container2" style="padding: 0 20px 0 20px;">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" v-for="(item,index) in recommend_data"  >
+                                    <a :href="'detail.html?cid='+item.cid+'&columnid='+columnid+''" style="display: inline-block;width: 100%;height: 100%;">
+                                        <img :src='item.img?item.img:"img/poster.jpg"' alt="" style="width: 189px;height: 149px;border-radius: 4px;">
+                                        <p style="margin-top: 15px;font-size: 16px;color: #666;line-height: 24px;padding: 0 10px;width: 90%;">
+                                            {{item.name}}
+                                        </p>
+                                    </a>
+                                </div>
+                               <!-- <div class="swiper-slide">
+                                    <img src="img/poster.jpg" alt="" style="width: 189px;height: 149px;border-radius: 4px;">
+                                    <p style="margin-top: 15px;font-size: 16px;color: #666;line-height: 24px;padding: 0 10px;width: 90%;">
+                                        大幅度根深蒂固的更
+                                    </p>
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="img/poster.jpg" alt="" style="width: 189px;height: 149px;border-radius: 4px;">
+                                    <p style="margin-top: 15px;font-size: 16px;color: #666;line-height: 24px;padding: 0 10px;width: 90%;">
+                                        大幅度根深蒂固的更
+                                    </p>
+                                </div>-->
+                            </div>
+                            <!-- 如果需要导航按钮 -->
+                            <!--<div class="swiper-button-prev" style=""></div>
+                            <div class="swiper-button-next" style="right: 16px;"></div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="detail_right fl">
+                <!--<div class="vote">
+                    <h5>投票区</h5>
+                    <div>
+                        <p style="font-size: 14px;color: #333;margin-bottom: 15px;">选择您最喜欢的特邀嘉宾,参与下次的直播互动</p>
+                        <p><input type="radio" name="people" value="肥嘟嘟" /> 肥嘟嘟<br /></p>
+                        <p><input type="radio" name="people" value="啥啥啥" /> 啥啥啥<br /></p>
+                        <p><input type="radio" name="people" value="xxx" /> xxx<br /></p>
+                        <p style="text-align: center;margin: 15px 0 40px 0"><button id="people_btn">投票</button></p>
+                    </div>
+                </div>
+                <p style="width: 100%;height: 15px;background: #f5f5f5;"></p>-->
+                <div class="hot_box" style="width: 100%;">
+                    <h5>热播榜</h5>
+                    <ul>
+                        <li v-for="(item,index) in getHot" :key="item.cid">
+                            <a :href="'detail.html?cid='+item.cid+'&columnid='+item.column_id+''" style="display: inline-block;width: 100%;height: 100%;color: #4658a8">
+                                <span :class="{first:index==0,second:index==1,third:index==2}">{{index+1}}</span>{{item.title}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="./js/jquery-2.1.4.min.js"></script>
+<script src="./js/swiper-3.4.2.jquery.min.js"></script>
+<script src="js/jquery.dotdotdot.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/vue.min.js"></script>
+<script src="jsRander/jsrander.min.js"></script>
+<script src="http://livet.v114.com/statics/common/js/mediaelement.js"></script>
+<script type="text/javascript" src="ckplayer/ckplayer.js" charset="UTF-8"></script>
+<script src="js/detail.js"></script>
+<script id="topList" type="text/x-jsrender">
+	 <li><span class='topBj'>{{:top}}</span><a href={{:nameLink}}>{{:nameSearch}}</a></li>
+</script>
+<script id="nameList" type="text/x-jsrender">
+	 <li><a style="color:#4658a8;" href={{:nameLink}}>{{:nameSearch}}</a></li>
+</script>
+<script>
+
+</script>
+</html>

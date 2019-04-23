@@ -21,7 +21,7 @@
         </p>
         <p><input type="text" placeholder="请输入验证码" v-model="code" style="width: 60%;height: 35px;"></p>
         <p>通过手机号订阅之后</br>本频道有更新会下发到您的手机</p>
-        <p><button @click="cancel" class="cancel">取消</button><button @click="book" class="book">订阅</button></p>
+        <p><button @click="cancel" class="cancel" style="background: #a1acc0;">取消</button><button @click="book" class="book">订阅</button></p>
     </div>
     <div v-show="show_box" class="mask">
 
@@ -33,7 +33,7 @@
 
                 <!--<li>基金理财</li>-->
             </ul>
-            <div class="fr">
+            <div class="fr" style="position: absolute;right: 0; top: 7px;">
                 <span >
                     <img id="search" src="./img/search.png" alt="" style="margin-right: 60px;">
                     <img id="close" class="hidden" src="./img/close.png" alt="" style="margin-right: 60px;">
@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="rank_box hidden">
-                <h5>排行榜 <span id="close_rank" style="font-weight: normal;color: #666;cursor: pointer;" class="fr">X</span></h5>
+                <h5>排行榜 <span id="close_rank" style="font-weight: normal;color: #d13033;cursor: pointer;" class="fr">X</span></h5>
                 <ul class="topHot">
 
                 </ul>
@@ -92,8 +92,8 @@
             </div>
             <div class="section_right fr">
                 <p class="top_p">
-                    <span style="cursor: pointer;" @click="show_book(item.title.column_id)" class="fl"><span></span>订阅</span>
-                    <span class="fr" style="color: #666;font-size: 16px;"><a :href="'list.html?column_img='+item.title.column_img+'&columnid='+item.title.column_id+''" style="color: #666;">更多...</a></span>
+                    <span class="fr" style="color: #666;font-size: 14px;"><a :href="'list.html?column_img='+item.title.column_img+'&columnid='+item.title.column_id+''" style="color: #666;">更多...</a></span>
+                    <span style="cursor: pointer;margin-right: 15px;border-right: 1px solid #ccc;padding-right: 15px;" @click="show_book(item.title.column_id)" class="fr"><span></span>订阅</span>
                 </p>
                 <div class="small_box" v-for="(msg,index) in item.right">
                     <a :href="'detail.html?cid='+msg.cid+'&columnid='+item.title.column_id+''" style="display: inline-block;width: 100%;height: 100%;">
@@ -107,15 +107,15 @@
     </div>
     <div class="order_wrap wrap" >
         <div class="order_box">
-            <p style="height: 40px;"><span class="tit_bg fl">{{channel_twoMsg.column_name}}</span>
+            <p style="height: 40px;line-height: 40px"><span class="tit_bg fl">{{channel_twoMsg.column_name}}</span>
                 <span class="fr">
-                    <span style="cursor: pointer;margin-right: 20px;font-size: 16px;color: #d13033;" @click="show_book(channel_twoMsg.column_id)" class="fl"><span></span>订阅</span>
+                    <span style="cursor: pointer;margin-right: 20px;font-size: 14px;color: #d13033;" @click="show_book(channel_twoMsg.column_id)" class="fl"><span></span>订阅</span>
                 <a :href="'list.html?column_img='+channel_twoMsg.column_img+'&columnid='+channel_twoMsg.column_id+''" style="color: #666;">更多...</a></span>
                 </span>
             </p>
             <div class="user_box" >
                 <div class="before_box" v-for="(item,index) in channel_two">
-                    <p style="width: 100%;text-align: center;margin: 30px 0;font-size: 22px;"><span>{{timeChange(item.live_start)}}</span></p>
+                    <p style="width: 100%;text-align: center;margin: 30px 0;font-size: 18px;"><span>{{timeChange(item.live_start)}}</span></p>
                     <p style="width: 100%;height: 3px;background: #cfcfcf;margin-bottom: 30px;position: relative;">
                     <span v-show="item.live_type!=1" style="display: inline-block;width: 25px;height: 25px;border-radius: 50%;position: absolute;
                     left: 40%;top: -11px;background: #cfcfcf;"></span>
@@ -124,15 +124,15 @@
                     </p>
                     <div class="" style="position: relative;">
                         <a :href="'detail.html?cid='+item.content_id+'&columnid='+channel_twoMsg.column_id+''" style="display: inline-block;width: 100%;height: 100%;">
-                            <div style="position: relative;width: 198px;height: 148px;">
-                                <img class="lie_poster" :src='item.content_img?item.content_img:"./img/small_poster.jpg"' alt="" style="width: 198px;height: 148px;border-radius: 10px;">
+                            <div style="position: relative;width: 160px;height: 120px;">
+                                <img class="lie_poster" :src='item.content_img?item.content_img:"./img/small_poster.jpg"' alt="" style="width: 160px;height: 120px;border-radius: 10px;">
                                 <img class="er_img hidden" :id="item.cid_random" :src="item.qr_code" alt="">
                                 <span class="phone" @mouseover="showCode(item.cid_random)" @mouseout="hideCode(item.cid_random)" style=""></span>
                                 <span v-show="item.live_type==1" class="clock" style=""></span>
                             </div>
                             <span class="little_play" style="left: 32%;top: 24%;"><img src="./img/play-small.png" alt=""></span>
 
-                            <p style="margin: 15px 0;font-size: 18px;color: #666;">{{item.name}}</p>
+                            <p style="margin: 15px 0;font-size: 14px;color: #666;width: 160px;">{{item.name}}</p>
                         </a>
                     </div>
                 </div>
@@ -142,22 +142,22 @@
     <div class="other_wrap wrap" style="background: #fafafa;">
         <div class="other_box">
             <div style="width: 30%;float:left;margin: 0 1.5%" v-for="(item,index) in channel_three">
-                <p style="margin: 15px 0;height: 40px;line-height: 40px;"><span style="display: inline-block;width: 12px;height: 23px;background: #db2e32;margin-right: 16px;"></span><span style="font-size: 24px;color: #333;">{{item.column_name}}</span>
-                    <span @click="show_book(item.column_id)" style="cursor: pointer;color: #db2e32;margin-left: 80px;height: 40px;line-height: 40px;font-size: 16px;">订阅</span>
-                    <span class="" style="margin-left: 30px;">
+                <p style="margin: 15px 0;height: 40px;line-height: 40px;"><span style="display: inline-block;width: 8px;height: 18px;background: #db2e32;margin-right: 10px;"></span><span style="font-size: 18px;color: #333;">{{item.column_name}}</span>
+                    <span @click="show_book(item.column_id)" style="cursor: pointer;color: #db2e32;margin-left: 80px;height: 40px;line-height: 40px;font-size: 14px;">订阅</span>
+                    <span class="" style="margin-left: 20px;">
                         <a :href="'list.html?column_img='+item.column_img+'&columnid='+item.column_id+''" style="color: #666;">更多...</a>
                     </span>
                 </p>
                 <div class="" style="position: relative;">
                     <a :href="'detail.html?cid='+item.cid+'&columnid='+item.column_id+''" style="display: inline-block;width: 100%;height: 100%;">
-                        <div style="position: relative;width: 340px;height: 280px;">
-                            <img :src='item.img?item.img:"./img/poster.jpg"' alt="" style="width: 340px;height: 280px;border-radius: 10px;">
+                        <div style="position: relative;width: 286px;height: 230px;">
+                            <img :src='item.img?item.img:"./img/poster.jpg"' alt="" style="width: 286px;height: 230px;border-radius: 10px;">
                             <img class="er_img hidden" :id="item.cid_random" :src="item.qr_code" alt="">
                             <span class="phone" @mouseover="showCode(item.cid_random)" @mouseout="hideCode(item.cid_random)" style=""></span>
                             <!--<div style="width: 100px;height: 100px;background: darkkhaki;position: absolute;bottom: 15px;right: 15px;"></div>-->
                         </div>
-                        <span class="little_play" style="left: 36%;top: 28%;"><img src="./img/play.png" alt=""></span>
-                        <p style="margin: 25px 0;font-size: 18px;color: #333;">{{item.name}}</p>
+                        <span class="little_play" style="left: 36%;top: 28%;"><img src="./img/play.png" style="width: 60px;" alt=""></span>
+                        <p style="margin: 25px 0;font-size: 14px;color: #333;">{{item.name}}</p>
                         <span style="position: absolute;border-radius:20px;font-size:16px;color:#fff;top: 16px;right: 16px;background: #db2e32;padding:3px 15px;">{{live_type(item.live_type)}}</span>
                     </a>
                 </div>
@@ -177,12 +177,9 @@
 	 <li><span class='topBj'>{{:top}}</span><a href={{:nameLink}}>{{:nameSearch}}</a></li>
 </script>
 <script id="nameList" type="text/x-jsrender">
-	 <li><a style="color:#4658a8;" href={{:nameLink}}>{{:nameSearch}}</a></li>
+	 <li><a style="color:#333;" href={{:nameLink}}>{{:nameSearch}}</a></li>
 </script>
 <script>
-    $(document).ready(function () {
-
-    });
 
 </script>
 </html>

@@ -27,7 +27,7 @@
         </p>
         <p><input type="text" placeholder="请输入验证码" v-model="code" style="width: 60%;height: 35px;"></p>
         <p>通过手机号预约之后</br>本频道有更新会下发到您的手机</p>
-        <p><button @click="cancel" class="cancel">取消</button><button @click="book" class="book">预约</button></p>
+        <p><button @click="cancel" class="cancel" style="background: #a1acc0;">取消</button><button @click="book" class="book">预约</button></p>
     </div>
     <div class="passBox hidden">
         <p style="font-size: 26px;color: #db2e32;font-weight: bold;">请输入观看密码</p>
@@ -41,7 +41,7 @@
 
                 <!-- <li>基金理财</li>-->
             </ul>
-            <div class="fr">
+            <div class="fr" style="position: absolute;right: 0; top: 7px;">
                 <span >
                     <img id="search" src="./img/search.png" alt="" style="margin-right: 60px;">
                     <img id="close" class="hidden" src="./img/close.png" alt="" style="margin-right: 60px;">
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="rank_box hidden">
-                <h5>排行榜 <span id="close_rank" style="font-weight: normal;color: #666;cursor: pointer;" class="fr">X</span></h5>
+                <h5>排行榜 <span id="close_rank" style="font-weight: normal;color: #d13033;cursor: pointer;" class="fr">X</span></h5>
                 <ul class="topHot">
 
                 </ul>
@@ -67,8 +67,8 @@
     </header>
     <div class="video_wrap">
         <div class="video_box">
-            <div style="height: 606px; ">
-                <div v-show="live_type==2||live_type==3" class="video fl" id="video">
+            <div style="height: 487px; ">
+                <div v-show="live_type==2||live_type==3" class="video fl" id="video" style="height: 487px;">
 
                 </div>
                 <div v-show="live_type==1" class="video fl">
@@ -99,7 +99,7 @@
                 <p style="position: relative;">
                     <span style="font-size: 18px;color: #fff;margin-right: 15px">{{video_name}}</span>
                     <span v-if="product_link" class="get_info"><a style="color: inherit;" :href="product_link" target="_blank">立即了解本栏目推荐的产品</a></span>
-                    <span v-else class="get_info">本栏目暂无推荐的产品</span>
+                   <!-- <span v-else class="get_info">本栏目暂无推荐的产品</span>-->
                     <span class="tel" style="cursor: pointer" @mouseover="showCode" @mouseout="hideCode"><img id="er_code" v-show="show_code"  :src="qr_code" ></span>
                     <span class="zan_bg">
                     <span style="display: inline-block;width: 24px;height: 18px;background: url('img/eye.png') no-repeat center;"></span>
@@ -118,17 +118,17 @@
     </div>
     <div class="content_wrap">
         <div class="content_box">
-            <div class="content_left fl">
+            <div class="content_left fl" style="width: 64%;">
                 <div class="intro_box" style="margin-top: 0px;">
-                    <h5 style="font-size: 20px;color: #333;margin-bottom: 20px">频道介绍</h5>
-                    <p style="color: #666;font-size: 16px;">{{column_desc}}</p>
+                    <h5 style="font-size: 16px;color: #333;margin-bottom: 20px;font-weight: normal;">频道介绍</h5>
+                    <p style="color: #666;font-size: 14px;line-height: 22px;">{{column_desc}}</p>
                 </div>
-                <div class="guest_box">
-                    <h5 style="font-size: 20px;color: #333;margin: 0px 0 36px 0 ">本期嘉宾</h5>
-                    <div class="slide" style="width: 100%;height: 180px;">
-                        <div class="swiper-container" style="padding: 0 20px 0 40px;overflow: inherit">
+                <div class="guest_box" style="padding: 0">
+                    <h5 style="font-size: 16px;color: #333;margin: 0px 0 36px 0 ;font-weight: normal;padding-left: 30px;padding-top: 25px;">本期嘉宾</h5>
+                    <div class="slide" style="width: 100%;height: 250px;background: #f5f5f5;">
+                        <div class="swiper-container" style="padding: 0">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide" style="position: relative;" v-for="(item,index) in guest" :key="index">
+                                <div class="swiper-slide" style="position: initial;background: #fff;padding-left: 20px;" v-for="(item,index) in guest" :key="index">
                                     <div style="display: flex;">
                                         <div style="margin-right: 25px;">
                                             <img :src='item.img ? item.img:"img/touxiang.png"' alt="" @mouseover="head_over(item.id)"  @mouseout="head_out(item.id)"
@@ -136,11 +136,11 @@
                                         </div>
                                         <div>
                                             <p style="font-size: 18px;color: #333;margin: 8px 0">{{item.guest_name}}</p>
-                                            <p style="font-size: 18px;color: #666">{{item.guest_source}}</p>
+                                            <p style="font-size: 14px;color: #666">{{item.guest_source}}</p>
                                         </div>
                                     </div>
                                     <div style="margin-top: 15px;font-size: 16px;color: #666;line-height: 24px;padding: 0 10px;width: 90%;">
-                                        <p id="dot2" class="after" style="width:280px;overflow:hidden; text-overflow:ellipsis;
+                                        <p id="dot2" class="after" style="overflow:hidden; text-overflow:ellipsis;
                                         display:-webkit-box; -webkit-box-orient:vertical;-webkit-line-clamp:3;" v-html="item.guest_desc">
                                         </p>
                                     </div>
@@ -161,14 +161,14 @@
                     </div>
                 </div>
                 <div class="recommend_box">
-                    <h5 style="font-size: 20px;color: #333;margin:0 0 30px 0">精彩节目推荐</h5>
+                    <h5 style="font-size: 16px;color: #333;margin:0 0 20px 0;font-weight: normal;">精彩节目推荐</h5>
                     <div class="slide" style="width: 100%;height: auto;">
                         <div class="swiper-container swiper-container2" style="padding: 0 20px 0 20px;">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide" v-for="(item,index) in recommend_data"  >
                                     <a :href="'detail.html?cid='+item.cid+'&columnid='+columnid+''" style="display: inline-block;width: 100%;height: 100%;">
-                                        <img :src='item.img?item.img:"img/poster.jpg"' alt="" style="width: 189px;height: 149px;border-radius: 4px;">
-                                        <p style="margin-top: 15px;font-size: 16px;color: #666;line-height: 24px;padding: 0 10px;width: 90%;">
+                                        <img :src='item.img?item.img:"img/poster.jpg"' alt="" style="width: 162px;height:131px;border-radius: 4px;">
+                                        <p style="margin-top: 15px;font-size: 16px;color: #666;line-height: 24px;padding: 0 10px;width: 120%;">
                                             {{item.name}}
                                         </p>
                                     </a>
@@ -209,7 +209,7 @@
                     <h5>热播榜</h5>
                     <ul>
                         <li v-for="(item,index) in getHot" :key="item.cid">
-                            <a :href="'detail.html?cid='+item.cid+'&columnid='+item.column_id+''" style="display: inline-block;width: 100%;height: 100%;color: #4658a8">
+                            <a :href="'detail.html?cid='+item.cid+'&columnid='+item.column_id+''" style="display: inline-block;width: 100%;height: 100%;">
                                 <span :class="{first:index==0,second:index==1,third:index==2}">{{index+1}}</span>{{item.title}}
                             </a>
                         </li>
@@ -233,7 +233,7 @@
 	 <li><span class='topBj'>{{:top}}</span><a href={{:nameLink}}>{{:nameSearch}}</a></li>
 </script>
 <script id="nameList" type="text/x-jsrender">
-	 <li><a style="color:#4658a8;" href={{:nameLink}}>{{:nameSearch}}</a></li>
+	 <li><a style="color:#333;" href={{:nameLink}}>{{:nameSearch}}</a></li>
 </script>
 <script>
 

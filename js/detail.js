@@ -84,7 +84,7 @@ var app = new Vue({
                             var mySwiper = new Swiper('.swiper-container', {
                                 slidesPerView : 2,
                                 /* autoplay: 3000, //可选选项，自动滑动*/
-                                spaceBetween : 30,
+                                spaceBetween : 15,
                                 paginationElement: 'span',
                                 speed: 800, //滑动过程速度
                                 paginationClickable: true,
@@ -93,7 +93,7 @@ var app = new Vue({
                             var mySwiper2 = new Swiper('.swiper-container2', {
                                 slidesPerView : 3,
                                 /* autoplay: 3000, //可选选项，自动滑动*/
-                                spaceBetween : 30,
+                                spaceBetween : 60,
                                 paginationElement: 'span',
                                 speed: 800, //滑动过程速度
                                 paginationClickable: true,

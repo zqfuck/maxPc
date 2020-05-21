@@ -193,7 +193,7 @@ p span.tit_bg{
     color: #fff;
     padding: 0 30px;
     border-radius: 5px;
-    margin: 0 40px;
+    /* margin: 0 40px; */
     cursor: pointer;
 }
 .mask{

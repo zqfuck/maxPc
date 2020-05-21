@@ -37,7 +37,9 @@ var app = new Vue({
         col_Id:'',
         tel:'',
         timeCount:60,
-        hover_timer:null
+        hover_timer:null,
+        shouHot_:true,
+        showOther_:true
     },
     created (){
         this.getDetail()
@@ -77,7 +79,7 @@ var app = new Vue({
                         that.video_url = result.detail_data.video_url
                         that.content_desc = result.detail_data.content_desc
                         that.column_desc = result.detail_data.column_desc
-                        that.guest = result.guest_data
+                        that.guest = result.guest_data.length>2?result.guest_data.slice(0,2):result.guest_data
                         that.guest_relevance = result.guest_relevance
                         that.recommend_data = result.recommend_data
                         that.$nextTick(() => {
@@ -244,7 +246,12 @@ var app = new Vue({
                 success: function (data) {
                     console.log(data)
                     if(data.state>=0){
-                        that.getHot = data.data
+                        if(data.data.length>0){
+                            that.getHot = data.data
+                        }else{
+                            that.shouHot_ = false
+                        }
+                        
                     }
                 },
                 error: function (data) {
@@ -266,7 +273,12 @@ var app = new Vue({
                 success: function (data) {
                     console.log(data)
                     if(data.state.rc>=0){
-                        that.otherItem = data.result.item
+                        if(data.result.item.length>0){
+                            that.otherItem = data.result.item
+                        }else{
+                            that.showOther_ = false
+                        }
+                       
                     }
                 },
                 error: function (data) {

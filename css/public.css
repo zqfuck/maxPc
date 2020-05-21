@@ -67,10 +67,13 @@ header{
     opacity: 1;
     background: #00c8ff !important;
 }
+#search,#close{
+    cursor: pointer;
+}
 .searchBox{
     height: 100%;
     position: absolute;
-    left: 223px;
+    left: 193px;
     top: 0;
     right: 150px;
     background: #fff;

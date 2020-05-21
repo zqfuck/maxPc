@@ -27,7 +27,7 @@
         </p>
         <p><input type="text" placeholder="请输入验证码" v-model="code" style="width: 60%;height: 35px;"></p>
         <p>通过手机号预约之后</br>本频道有更新会下发到您的手机</p>
-        <p><button @click="cancel" class="cancel" style="background: #a1acc0;">取消</button><button @click="book" class="book">预约</button></p>
+        <p style="display: flex;width: 64%;justify-content: space-around"><button @click="book" class="book">预约</button><button @click="cancel" class="cancel" style="background: #a1acc0;">取消</button></p>
     </div>
     <div class="passBox hidden">
         <p style="font-size: 26px;color: #db2e32;font-weight: bold;">请输入观看密码</p>
@@ -79,20 +79,21 @@
                         <p>
                             <span id="begin_txt" style="font-size: 24px;margin: 0 25px;">距离直播开始还有</span>
                            <!-- <span  style="font-size: 24px;margin: 0 25px;">敬请期待</span>-->
-                            <span style="font-size: 30px;">{{time_count}}</span>
+                            <span style="font-size: 30px;" v-html="time_count"></span>
                             <button class="hidden" @click="show_book" id="book_btn">立即预约</button>
                         </p>
                     </div>
                 </div>
                 <div class="videp_right fr">
                     <h5>本频道其他节目</h5>
-                    <ul>
+                    <ul v-if="showOther_">
                         <li v-for="(item,index) in otherItem">
                             <a :href="'detail.html?cid='+item.content_id+'&columnid='+columnid+''" style="display: inline-block;width: 100%;height: 100%;color: inherit;">
                                 {{item.name}}
                             </a>
                         </li>
                     </ul>
+                    <p v-else>暂无数据</p>
                 </div>
             </div>
             <div class="video_info">
@@ -123,9 +124,9 @@
                     <h5 style="font-size: 16px;color: #333;margin-bottom: 20px;font-weight: normal;">频道介绍</h5>
                     <p style="color: #666;font-size: 14px;line-height: 22px;">{{column_desc}}</p>
                 </div>
-                <div class="guest_box" style="padding: 0">
+                <div class="guest_box" style="padding: 0" v-if="guest.length>0">
                     <h5 style="font-size: 16px;color: #333;margin: 0px 0 36px 0 ;font-weight: normal;padding-left: 30px;padding-top: 25px;">本期嘉宾</h5>
-                    <div class="slide" style="width: 100%;height: 250px;background: #f5f5f5;">
+                    <div class="slide" style="width: 100%;height: 250px; background: #fff;">
                         <div class="swiper-container" style="padding: 0">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide" style="position: initial;background: #fff;padding-left: 20px;" v-for="(item,index) in guest" :key="index">
@@ -144,7 +145,7 @@
                                         display:-webkit-box; -webkit-box-orient:vertical;-webkit-line-clamp:3;" v-html="item.guest_desc">
                                         </p>
                                     </div>
-                                    <div class="mineVideo hidden" :id="item.id">
+                                    <div class="mineVideo hidden" v-if = "item.guest_relevance.length>0" :id="item.id">
                                         <div class="section_box" v-for="(msg,index) of item.guest_relevance">
                                             <a :href="'detail.html?cid='+msg.content_id+'&columnid='+msg.column_id+''" style="display: inline-block;width: 100%;height: 100%;color: inherit;">
                                                 <img :src='msg.content_img?msg.content_img:"./img/banner123.png"' alt="">
@@ -207,13 +208,14 @@
                 <p style="width: 100%;height: 15px;background: #f5f5f5;"></p>-->
                 <div class="hot_box" style="width: 100%;">
                     <h5>热播榜</h5>
-                    <ul>
+                    <ul v-if="shouHot_">
                         <li v-for="(item,index) in getHot" :key="item.cid">
                             <a :href="'detail.html?cid='+item.cid+'&columnid='+item.column_id+''" style="display: inline-block;width: 100%;height: 100%;">
                                 <span :class="{first:index==0,second:index==1,third:index==2}">{{index+1}}</span>{{item.title}}
                             </a>
                         </li>
                     </ul>
+                    <p v-else>暂无数据</p>
                 </div>
             </div>
         </div>
@@ -222,13 +224,14 @@
 </body>
 <script src="./js/jquery-2.1.4.min.js"></script>
 <script src="./js/swiper-3.4.2.jquery.min.js"></script>
+<script type="text/javascript" src="js/browser.min.js"></script>
 <script src="js/jquery.dotdotdot.min.js"></script>
 <script src="js/common.js"></script>
 <script src="js/vue.min.js"></script>
 <script src="jsRander/jsrander.min.js"></script>
 <script src="http://livet.v114.com/statics/common/js/mediaelement.js"></script>
 <script type="text/javascript" src="ckplayer/ckplayer.js" charset="UTF-8"></script>
-<script src="js/detail.js"></script>
+<script src="js/detail.js" type="text/babel"></script>
 <script id="topList" type="text/x-jsrender">
 	 <li><span class='topBj'>{{:top}}</span><a href={{:nameLink}}>{{:nameSearch}}</a></li>
 </script>

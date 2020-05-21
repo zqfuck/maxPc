@@ -9,109 +9,121 @@ var columnid = getQueryStringByName('columnid');   //获取地址栏的columnid�
 
 
 
-$(document).ready(function () {
-    $("#rank").click(function () {
-        $('.topHot').empty();
-        $.ajax({
-            url:URL_Link + '/webapi/banner/get-data',
-            type:'get',
-            dataType:'json',
-            data:{
-                id:companyId,
-                type:2
-            },
-            success:function (data) {
-                console.log(data)
-                if (data.state >= 0) {
-                    var data = data.data;
-                    var nameLink = 'detail.html?cid='
-                    $.each(data, function (i, ele) {
-                        var commentList = {
-                            nameSearch: ele.title,
-                            top: i + 1,
-                            nameLink: nameLink+ele.cid+"&qy_companyid="+ companyId
-                        };
-                        var chatHtml;
-                        chatHtml = $("#topList").render(commentList);
-                        $('.topHot').append(chatHtml);
-                        $(".topBj").eq(0).css({"background": "#ee3e3e"});
-                        $(".topBj").eq(1).css({"background": "#ee993e"});
-                        $(".topBj").eq(2).css({"background": "#eedf3e"});
-                    })
-                }
-            },
-            error:function (err) {
-                console.log(err)
-            }
+setTimeout(function () {
+    $(document).ready(function () {
 
-        })
-        $(".rank_box").show()
-    });
-    $("#close_rank").click(function () {
-        $(".rank_box").hide()
-    });
-    $("#search").click(function () {
-        $(this).hide()
-        $("#close").show()
-        $(".searchBox").show()
-
-        $("#search_val").keyup(function () {
-            $('.listL').empty();
-            // $('.nameList').css({'height':"auto","overflow-y":"auto"});
-
-            val = $.trim($("#search_val").val());
-            searchList();
-        });
-        $("#close").click(function () {
-            $("#close").hide()
-            $(".searchBox").hide()
-            $('.listL').empty();
-            $("#search").show()
-            $("#search_val").val('')
-            $(".search_list").addClass("hidden");
-        })
-
-        //搜索
-        function searchList() {
+        $("#rank").click(function () {
+            $('.topHot').empty();
             $.ajax({
-                url: URL_Link + '/appapi/wx/search',
-                type: "get",
-                dataType: "json",
-                cache: false,
-                data: {
-                    id: companyId,
-                    value: val
+                url:URL_Link + '/webapi/banner/get-data',
+                type:'get',
+                dataType:'json',
+                data:{
+                    id:companyId,
+                    type:2
                 },
-                error: function (data) {
-                    console.log(data);
-                },
-                success: function (data) {
+                success:function (data) {
                     console.log(data)
-                    if (data.state.rc == 0) {
-                        $('.listL').empty();
-                        var result = data.result.items;
-                        var nameLink = 'detail.html?cid='
-                        $.each(result, function (i, ele) {
-                            var commentList = {
-                                nameSearch: ele.name,
-                                nameLink: nameLink+ele.cid+"&columnid="+ele.column_id
-                            };
-                            var chatHtml;
-                            chatHtml = $("#nameList").render(commentList);
-                            $('.listL').append(chatHtml);
-                            $(".search_list").removeClass("hidden");
-                        })
-                    }else {
-                        $('.listL').empty();
-                        var st ='<p>暂无搜索内容</p>'
-                        $('.listL').append(st);
-                        $(".search_list").removeClass("hidden");
+                    if (data.state >= 0) {
+                        var data = data.data;
+                        if(data.length>0){
+                            var nameLink = 'detail.html?cid='
+                            $.each(data, function (i, ele) {
+                                var commentList = {
+                                    nameSearch: ele.title,
+                                    top: i + 1,
+                                    nameLink: nameLink+ele.cid+"&qy_companyid="+ companyId
+                                };
+                                var chatHtml;
+                                chatHtml = $("#topList").render(commentList);
+                                $('.topHot').append(chatHtml);
+                                $(".topBj").eq(0).css({"background": "#ee3e3e"});
+                                $(".topBj").eq(1).css({"background": "#ee993e"});
+                                $(".topBj").eq(2).css({"background": "#eedf3e"});
+                            })
+                        }else{
+                            if(!$(".rank_box").hasClass("has_")){
+                                $(".rank_box").addClass("has_")
+                                $(".rank_box").append("<p style='line-height:40px;padding-left:10px;'>暂无数据</p>")
+                            }
+                    
+                        }
+                       
                     }
+                },
+                error:function (err) {
+                    console.log(err)
                 }
+
+            })
+            $(".rank_box").show()
+        });
+        $("#close_rank").click(function () {
+            $(".rank_box").hide()
+        });
+        $("#search").click(function () {
+            $(this).hide()
+            $("#close").show()
+            $(".searchBox").show()
+
+            $("#search_val").keyup(function () {
+                $('.listL').empty();
+                // $('.nameList').css({'height':"auto","overflow-y":"auto"});
+
+                val = $.trim($("#search_val").val());
+                searchList();
             });
-        };
+            $("#close").click(function () {
+                $("#close").hide()
+                $(".searchBox").hide()
+                $('.listL').empty();
+                $("#search").show()
+                $("#search_val").val('')
+                $(".search_list").addClass("hidden");
+            })
+
+            //搜索
+            function searchList() {
+                $.ajax({
+                    url: URL_Link + '/appapi/wx/search',
+                    type: "get",
+                    dataType: "json",
+                    cache: false,
+                    data: {
+                        id: companyId,
+                        value: val
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        if (data.state.rc == 0) {
+                            $('.listL').empty();
+                            var result = data.result.items;
+                            var nameLink = 'detail.html?cid='
+                            $.each(result, function (i, ele) {
+                                var commentList = {
+                                    nameSearch: ele.name,
+                                    nameLink: nameLink+ele.cid+"&columnid="+ele.column_id
+                                };
+                                var chatHtml;
+                                chatHtml = $("#nameList").render(commentList);
+                                $('.listL').append(chatHtml);
+                                $(".search_list").removeClass("hidden");
+                            })
+                        }else {
+                            $('.listL').empty();
+                            var st ='<p>暂无搜索内容</p>'
+                            $('.listL').append(st);
+                            $(".search_list").removeClass("hidden");
+                        }
+                    }
+                });
+            };
+        })
     })
-})
+},300)
 
 
 /*显示提醒*/

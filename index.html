@@ -21,7 +21,7 @@
         </p>
         <p><input type="text" placeholder="请输入验证码" v-model="code" style="width: 60%;height: 35px;"></p>
         <p>通过手机号订阅之后</br>本频道有更新会下发到您的手机</p>
-        <p><button @click="cancel" class="cancel" style="background: #a1acc0;">取消</button><button @click="book" class="book">订阅</button></p>
+        <p style="display: flex;width: 64%;justify-content: space-around"><button @click="book" class="book">订阅</button><button @click="cancel" class="cancel" style="background: #a1acc0;">取消</button></p>
     </div>
     <div v-show="show_box" class="mask">
 
@@ -169,10 +169,11 @@
 </body>
 <script src="./js/jquery-2.1.4.min.js"></script>
 <script src="./js/swiper-3.4.2.jquery.min.js"></script>
+<script type="text/javascript" src="js/browser.min.js"></script>
 <script src="js/common.js"></script>
 <script src="js/vue.min.js"></script>
 <script src="jsRander/jsrander.min.js"></script>
-<script src="js/index.js"></script>
+<script src="js/index.js" type="text/babel"></script>
 <script id="topList" type="text/x-jsrender">
 	 <li><span class='topBj'>{{:top}}</span><a href={{:nameLink}}>{{:nameSearch}}</a></li>
 </script>

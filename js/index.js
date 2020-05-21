@@ -239,7 +239,7 @@
                                     that.time = !that.time
                                     that.timeCount = 60
                                 }else {
-                                    showTip("您已经订阅过此内容")
+                                    showTip("您获取验证码次数过多")
                                     that.tel = ''
                                     that.code = ''
                                     that.show_box = false

@@ -10,7 +10,8 @@ var app = new Vue({
         scrollFlag:false,
         page:1,
         pagesize:6,
-        totalpage:''
+        totalpage:'',
+        shouHot_:true
     },
     created (){
         this.getList()
@@ -83,7 +84,11 @@ var app = new Vue({
                 success: function (data) {
                     console.log(data)
                     if(data.state>=0){
-                        that.getHot = data.data
+                        if(data.data.length>0){
+                            that.getHot = data.data
+                        }else{
+                            that.shouHot_ = false
+                        }
                     }
                 },
                 error: function (data) {
@@ -104,7 +109,7 @@ var app = new Vue({
             var that =this
             window.onscroll = function () {
                 var srollPos = $(window).scrollTop();
-                totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
+                var totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
                 if(($(document).height()-50) <= totalheight) {
                     //console.log(that.page)
                     if(that.page<that.totalpage){
